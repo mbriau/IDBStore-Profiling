@@ -70,7 +70,7 @@ var crypto = require('crypto');
             console.log("end");
             var date = new Date();
             var endTime = date.getTime();
-            pub_msg.append('<p>Happily iterating over all ' + count + ' entries took ' + (endTime - startTime) + ' ms</p>');
+            pub_msg.append('<p>Iterating over all ' + count + ' entries took ' + (endTime - startTime) + ' ms</p>');
         }
 
         var date = new Date();
@@ -89,20 +89,30 @@ var crypto = require('crypto');
             .replace(/\//g, '0'); // replace '/' with '0'
     }
 
-    function insertMultipleSources() {
+    function insertMultipleSources(with10k) {
         clearOutput();
         var pub_msg = $('#pub-msg');
 
         var qtyVal = $('#nb-insertions').val();
         var qty = parseInt(qtyVal);
 
-        //13654 characters will contain 10k of data (33% overhead)
-        var randomData = randomValueBase64(13645);
+        if(with10k){
+            //13654 characters will contain 10k of data (33% overhead)
+            var data = randomValueBase64(13645);
+        }
+        else{
+            var data = {"name":"Briarcliff Manor- Caney Brook tributary",
+                        "type":"Surface","code":"52203","user":"tbrown@riverkeeper.org","_id":"d2c3c6d1857444898ebdc4922831faba",
+                        "geo":{"type":"Point","coordinates":[-73.83677918,41.13323049]},
+                        "photos":[{"id":"7e1e11cfd55e45ad88da4e5643f8a934"},{"id":"9e81cb6fe3b0465d9e067f58b9e3c3e6"},{"id":"7682075651ca4d2ab192747836f9d534"},{"id":"798af096e0414783a21e0985647ce4ad"},
+                            {"id":"90d33333e69145999e47bb30d363cdc8"},{"id":"580c617161a4413fa776facd0b7870b3"},{"id":"6ad740c360554b908b0594becdd6fa4a"}],
+                        "modified":{"on":"2014-01-10T18:17:49.687Z","by":"tbrown@riverkeeper.org"},"_rev":12,"desc":"PR-CB-0.77","org":"RiverkeeperNY"};
+        }
+
         var i = 0;
         var entries = [];
         while(i < qty){
-
-            entries.push({ customId:"id" + i, data: randomData})
+            entries.push({ customId:"id" + i, data: data})
             i++;
         }
 
@@ -250,10 +260,13 @@ var crypto = require('crypto');
 
         var multipleInsertsButton = $('#multiple-inserts-button');
         multipleInsertsButton.click(function(evt) {
-            insertMultipleSources();
+            insertMultipleSources(false);
         });
 
-
+        var multipleInsertsButton2 = $('#multiple-inserts-button2');
+        multipleInsertsButton2.click(function(evt) {
+            insertMultipleSources(true);
+        });
     }
 
     openDb();

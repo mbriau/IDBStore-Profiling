@@ -6,11 +6,26 @@
 <script type="text/javascript" src="./jquery.min.js"></script>
 <script type="text/javascript" src="./IndexedDBShim.min.js"></script>
 <script type="text/javascript" src="./idbstore.min.js"></script>
+<h3>Inserting data</h3>
 <div>
     customId:<input type="text" id="source-id" name="source-id">
     data:<input type="text" id="source-data" name="source-data">
     <input type="button" id="add-button" value="Add Source">
 </div>
+<div style="margin-top:15px;margin-bottom:15px">
+    <div>
+        nb entries:<input type="text" id="nb-insertions"/> (entries will have "idN" as customId)
+    </div>
+    <div>
+        <input type="button" id="multiple-inserts-button" value="Add multiple entries">
+        <input type="button" id="multiple-inserts-button2" value="With 10k data">
+    </div>
+</div>
+<div>
+    <input type="button" id="clear-all-button" value="Clear all data">
+</div>
+
+<h3>Querying</h3>
 <div>
     customId:<input type="text" id="specific-id" name="specific-id">
     <input type="button" id="search-specific-button" value="Get specific content">
@@ -21,14 +36,9 @@
     <input type="button" id="search-range-button" value="Search in range">
 </div>
 <div>
-    nb entries:<input type="text" id="nb-insertions"/>
-    <input type="button" id="multiple-inserts-button" value="Add multiple entries">
-    (entries will have "idN" as customId)
-</div>
-<div>
     <input type="button" id="search-list-button" value="List database content">
-    <input type="button" id="clear-all-button" value="Clear all data">
 </div>
+<h3>Result</h3>
 <div>
     <div id="pub-msg"></div>
     <ul id="pub-list"></ul>
