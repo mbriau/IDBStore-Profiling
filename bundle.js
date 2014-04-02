@@ -1910,7 +1910,7 @@ var crypto = require('crypto');
             console.log("end");
             var date = new Date();
             var endTime = date.getTime();
-            pub_msg.append('<p>Happily iterating over all ' + count + ' entries took ' + (endTime - startTime) + ' ms</p>');
+            pub_msg.append('<p>Iterating over all ' + count + ' entries took ' + (endTime - startTime) + ' ms</p>');
         }
 
         var date = new Date();
