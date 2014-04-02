@@ -1,3 +1,5 @@
+var crypto = require('crypto');
+
 (function () {
     var customers;
 
@@ -79,6 +81,14 @@
         });
     }
 
+    function randomValueBase64 (len) {
+        return crypto.randomBytes(Math.ceil(len * 3 / 4))
+            .toString('base64')   // convert to base64 format
+            .slice(0, len)        // return required number of characters
+            .replace(/\+/g, '0')  // replace '+' with '0'
+            .replace(/\//g, '0'); // replace '/' with '0'
+    }
+
     function insertMultipleSources() {
         clearOutput();
         var pub_msg = $('#pub-msg');
@@ -86,11 +96,13 @@
         var qtyVal = $('#nb-insertions').val();
         var qty = parseInt(qtyVal);
 
+        //13654 characters will contain 10k of data (33% overhead)
+        var randomData = randomValueBase64(13645);
         var i = 0;
-        var data = [];
+        var entries = [];
         while(i < qty){
-            var randomData = new Buffer('iVBORw0KGgoAAAANSUhEUgAAA', 'base64')
-            data.push({ customId:"id" + i, data: randomData})
+
+            entries.push({ customId:"id" + i, data: randomData})
             i++;
         }
 
@@ -106,7 +118,7 @@
 
         var date = new Date();
         var startTime = date.getTime();
-        customers.putBatch(data, onSuccess, onError);
+        customers.putBatch(entries, onSuccess, onError);
     }
 
     function displayQueriedSource(keyRange) {
@@ -122,7 +134,7 @@
                     '(customId: ' + item.customId + ') '+
                     '</li>');
                 if (item.data != null)
-                    list_item.append(' - ' + item.data);
+                    list_item.append(' - ' + item.data );
 
                 pub_list.append(list_item);
             }
